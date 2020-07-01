@@ -98,7 +98,7 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
             tvName.setText(tweet.user.name);
             tvTime.setText(Tweet.getRelativeTimeAgo(tweet.createdAt));
             Glide.with(context).load(tweet.user.profileImageUrl).transform(new CircleCrop()).into(ivProfileImage);
-            Glide.with(context).load(tweet.mediaPath)/*.transform(new RoundedCorners(20))*/.into(ivMedia);
+            Glide.with(context).load(tweet.mediaPath).transform(new RoundedCorners(60)).into(ivMedia);
             Log.i("TweetsAdapter", "Tweet from" + tweet.user.screenName + " bound");
         }
     }

@@ -37,6 +37,7 @@ public class TimelineActivity extends AppCompatActivity {
     //ActivityTimelineBinding binding;
     RecyclerView rvTweets;
     SwipeRefreshLayout swipeContainer;
+    MenuItem miNetworkProgress;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,9 +71,11 @@ public class TimelineActivity extends AppCompatActivity {
     }
 
     private void populateHomeTimelineAsync(final int attempts) {
+        showProgressBar();
         if (attempts <= 0) {
             Toast.makeText(this, "Fetch Failed! Check network connection!", Toast.LENGTH_LONG);
             swipeContainer.setRefreshing(false);
+            miNetworkProgress.setVisible(false);
             return;
         }
         client.getHomeTimeline(new JsonHttpResponseHandler() {
@@ -88,6 +91,7 @@ public class TimelineActivity extends AppCompatActivity {
                 } catch (JSONException e) {
                     Log.e(TAG, "Json Exception", e);
                 }
+                hideProgressBar();
             }
 
             @Override
@@ -98,9 +102,16 @@ public class TimelineActivity extends AppCompatActivity {
         });
     }
 
+    //TODO: Do I need to override this method or can this be done in onCreateOptionsMenu()?
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        miNetworkProgress = menu.findItem(R.id.miNetworkProgress);
+        return super.onPrepareOptionsMenu(menu);
+    }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_main, menu);
+        miNetworkProgress = menu.findItem(R.id.miNetworkProgress);
         return true;
     }
 
@@ -126,5 +137,19 @@ public class TimelineActivity extends AppCompatActivity {
             rvTweets.smoothScrollToPosition(0);
         }
         super.onActivityResult(requestCode, resultCode, data);
+    }
+
+    public void showProgressBar() {
+        // Show progress item
+        if (miNetworkProgress != null) {
+            miNetworkProgress.setVisible(true);
+        }
+    }
+
+    public void hideProgressBar() {
+        // Hide progress item
+        if (miNetworkProgress != null) {
+            miNetworkProgress.setVisible(false);
+        }
     }
 }

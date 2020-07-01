@@ -7,6 +7,8 @@ import android.os.Bundle;
 import android.os.Parcel;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -31,6 +33,7 @@ public class ComposeActivity extends AppCompatActivity {
     Button btnTweet;
     TextInputLayout tilCharacterCounter;
     TwittorClient client;
+    MenuItem miNetworkProgress;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,11 +56,13 @@ public class ComposeActivity extends AppCompatActivity {
                     Toast.makeText(ComposeActivity.this, "Sorry, your tweet is too long", Toast.LENGTH_LONG).show();
                 } else {
                     //Make tweet!
+                    showProgressBar();
                     Log.i(TAG, "Sending tweet");
                     client.publishTweet(tweetContent, new JsonHttpResponseHandler() {
                         @Override
                         public void onSuccess(int statusCode, Headers headers, JSON json) {
                             Log.i(TAG, "onSuccess to publish tweet");
+                            hideProgressBar();
                             Tweet tweet = null;
                             try {
                                 tweet = Tweet.fromJson(json.jsonObject);
@@ -81,5 +86,31 @@ public class ComposeActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        //miNetworkProgress = menu.findItem(R.id.miNetworkProgress);
+        return super.onPrepareOptionsMenu(menu);
+    }
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        miNetworkProgress = menu.findItem(R.id.miNetworkProgress);
+        return true;
+    }
+
+    public void showProgressBar() {
+        // Show progress item
+        if (miNetworkProgress != null) {
+            miNetworkProgress.setVisible(true);
+        }
+    }
+
+    public void hideProgressBar() {
+        // Hide progress item
+        if (miNetworkProgress != null) {
+            miNetworkProgress.setVisible(false);
+        }
     }
 }
