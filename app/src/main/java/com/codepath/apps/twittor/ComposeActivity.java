@@ -14,6 +14,7 @@ import android.widget.Toast;
 
 import com.codepath.apps.twittor.models.Tweet;
 import com.codepath.asynchttpclient.callback.JsonHttpResponseHandler;
+import com.google.android.material.textfield.TextInputLayout;
 
 import org.json.JSONException;
 import org.parceler.Parcels;
@@ -28,7 +29,7 @@ public class ComposeActivity extends AppCompatActivity {
 
     EditText etCompose;
     Button btnTweet;
-
+    TextInputLayout tilCharacterCounter;
     TwittorClient client;
 
     @Override
@@ -37,6 +38,8 @@ public class ComposeActivity extends AppCompatActivity {
         setContentView(R.layout.activity_compose);
         etCompose = findViewById(R.id.etCompose);
         btnTweet = findViewById(R.id.btnTweet);
+        tilCharacterCounter = findViewById(R.id.tilCharacterCounter);
+        tilCharacterCounter.setCounterMaxLength(MAX_TWEET_LENGTH);
 
         client = TwittorApp.getRestClient(this);
 

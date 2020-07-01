@@ -17,6 +17,7 @@ import com.bumptech.glide.load.resource.bitmap.CircleCrop;
 import com.codepath.apps.twittor.R;
 //import com.codepath.apps.twittor.databinding.ItemTweetBinding;
 import com.codepath.apps.twittor.models.Tweet;
+import com.google.android.material.textfield.TextInputLayout;
 
 import org.w3c.dom.Text;
 
@@ -74,6 +75,7 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
         TextView tvScreenName;
         TextView tvName;
         TextView tvTime;
+
         public ViewHolder(@NonNull View itemView) {
             //super(binding.getRoot());
             super(itemView);
@@ -82,6 +84,7 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
             tvScreenName = itemView.findViewById(R.id.tvScreenName);
             tvName = itemView.findViewById(R.id.tvName);
             tvTime = itemView.findViewById(R.id.tvTime);
+
         }
 
         public void bind(Tweet tweet) {
