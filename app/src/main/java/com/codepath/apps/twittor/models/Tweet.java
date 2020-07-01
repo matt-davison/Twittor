@@ -1,6 +1,7 @@
 package com.codepath.apps.twittor.models;
 
 import android.text.format.DateUtils;
+import android.util.Log;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -22,6 +23,7 @@ public class Tweet {
     public String body;
     public String createdAt;
     public User user;
+    public String mediaPath;
 
     public Tweet() {}
     public static Tweet fromJson(JSONObject jsonObject) throws JSONException {
@@ -29,6 +31,12 @@ public class Tweet {
         tweet.body = jsonObject.getString("text");
         tweet.createdAt = jsonObject.getString("created_at");
         tweet.user = User.fromJson(jsonObject.getJSONObject("user"));
+        try {
+            tweet.mediaPath = jsonObject.getJSONObject("entities").getJSONArray("media").getJSONObject(0).getString("media_url_https");
+
+        } catch (JSONException e) {
+            tweet.mediaPath = null;
+        }
         return tweet;
     }
 
