@@ -13,9 +13,12 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.bitmap.CircleCrop;
 import com.codepath.apps.twittor.R;
 //import com.codepath.apps.twittor.databinding.ItemTweetBinding;
 import com.codepath.apps.twittor.models.Tweet;
+
+import org.w3c.dom.Text;
 
 import java.util.List;
 //TODO: Fix binding
@@ -69,13 +72,16 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
         ImageView ivProfileImage;
         TextView tvBody;
         TextView tvScreenName;
-
+        TextView tvName;
+        TextView tvTime;
         public ViewHolder(@NonNull View itemView) {
             //super(binding.getRoot());
             super(itemView);
             ivProfileImage = itemView.findViewById(R.id.ivProfileImage);
             tvBody = itemView.findViewById(R.id.tvBody);
             tvScreenName = itemView.findViewById(R.id.tvScreenName);
+            tvName = itemView.findViewById(R.id.tvName);
+            tvTime = itemView.findViewById(R.id.tvTime);
         }
 
         public void bind(Tweet tweet) {
@@ -83,8 +89,10 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
             //binding.tvScreenName.setText(tweet.user.screenName);
             //Glide.with(context).load(tweet.user.profileImageUrl).into(binding.ivProfileImage);
             tvBody.setText(tweet.body);
-            tvScreenName.setText(tweet.user.screenName);
-            Glide.with(context).load(tweet.user.profileImageUrl).into(ivProfileImage);
+            tvScreenName.setText("(@" + tweet.user.screenName + ")");
+            tvName.setText(tweet.user.name);
+            tvTime.setText(Tweet.getRelativeTimeAgo(tweet.createdAt));
+            Glide.with(context).load(tweet.user.profileImageUrl).transform(new CircleCrop()).into(ivProfileImage);
             Log.i("TweetsAdapter", "Tweet from" + tweet.user.screenName + " bound");
         }
     }

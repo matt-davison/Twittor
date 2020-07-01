@@ -5,6 +5,7 @@ import android.text.format.DateUtils;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.parceler.Parcel;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -12,12 +13,17 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
+import static android.text.format.DateUtils.FORMAT_ABBREV_RELATIVE;
+
+//TODO: Why do all of these methods have to be static?
+@Parcel
 public class Tweet {
 
     public String body;
     public String createdAt;
     public User user;
-    public String relativeTime;
+
+    public Tweet() {}
     public static Tweet fromJson(JSONObject jsonObject) throws JSONException {
         Tweet tweet = new Tweet();
         tweet.body = jsonObject.getString("text");
@@ -34,7 +40,7 @@ public class Tweet {
         return tweets;
     }
 
-    public String getRelativeTimeAgo(String rawJsonDate) {
+    public static String getRelativeTimeAgo(String rawJsonDate) {
         String twitterFormat = "EEE MMM dd HH:mm:ss ZZZZZ yyyy";
         SimpleDateFormat sf = new SimpleDateFormat(twitterFormat, Locale.ENGLISH);
         sf.setLenient(true);
@@ -43,7 +49,7 @@ public class Tweet {
         try {
             long dateMillis = sf.parse(rawJsonDate).getTime();
             relativeDate = DateUtils.getRelativeTimeSpanString(dateMillis,
-                    System.currentTimeMillis(), DateUtils.SECOND_IN_MILLIS).toString();
+                    System.currentTimeMillis(), DateUtils.SECOND_IN_MILLIS, FORMAT_ABBREV_RELATIVE).toString();
         } catch (ParseException e) {
             e.printStackTrace();
         }
