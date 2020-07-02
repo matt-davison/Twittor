@@ -34,6 +34,7 @@ public class ComposeActivity extends AppCompatActivity {
     TextInputLayout tilCharacterCounter;
     TwittorClient client;
     MenuItem miNetworkProgress;
+    String replyTo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +47,10 @@ public class ComposeActivity extends AppCompatActivity {
 
         client = TwittorApp.getRestClient(this);
 
+        replyTo = getIntent().getStringExtra("replyTo");
+        if (replyTo != null ) {
+            etCompose.setText("@"+replyTo+" ");
+        }
         btnTweet.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

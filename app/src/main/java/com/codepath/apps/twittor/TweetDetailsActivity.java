@@ -84,13 +84,13 @@ public class TweetDetailsActivity extends AppCompatActivity {
                         Toast toast = Toast.makeText(TweetDetailsActivity.this, "You've liked " + tweet.user.name + "'s tweet!", Toast.LENGTH_LONG);
                         toast.setGravity(Gravity.TOP|Gravity.CENTER_HORIZONTAL, 0, 0);
                         toast.show();
-                        //TODO: change v's color to red!
+                        //TODO: change v's color to red! and disable
                     }
 
                     @Override
                     public void onFailure(int statusCode, Headers headers, String response, Throwable throwable) {
                         Log.e(TAG, "onFailure" + response, throwable);
-                        Toast toast = Toast.makeText(TweetDetailsActivity.this, "Sorry, ", Toast.LENGTH_LONG);
+                        Toast toast = Toast.makeText(TweetDetailsActivity.this, "Sorry, unable to like tweet", Toast.LENGTH_LONG);
                         toast.setGravity(Gravity.TOP|Gravity.CENTER_HORIZONTAL, 0, 0);
                         toast.show();
                         hideProgressBar();
@@ -111,13 +111,13 @@ public class TweetDetailsActivity extends AppCompatActivity {
                         Toast toast = Toast.makeText(TweetDetailsActivity.this, "You've retweeted " + tweet.user.name + "'s tweet!", Toast.LENGTH_LONG);
                         toast.setGravity(Gravity.TOP|Gravity.CENTER_HORIZONTAL, 0, 0);
                         toast.show();
-                        //TODO: turn v green!
+                        //TODO: turn v green! and disable
                     }
 
                     @Override
                     public void onFailure(int statusCode, Headers headers, String response, Throwable throwable) {
                         Log.e(TAG, "onFailure" + response, throwable);
-                        Toast toast = Toast.makeText(TweetDetailsActivity.this, "Sorry, ", Toast.LENGTH_LONG);
+                        Toast toast = Toast.makeText(TweetDetailsActivity.this, "Sorry, unable to retweet", Toast.LENGTH_LONG);
                         toast.setGravity(Gravity.TOP|Gravity.CENTER_HORIZONTAL, 0, 0);
                         toast.show();
                         hideProgressBar();
@@ -126,10 +126,14 @@ public class TweetDetailsActivity extends AppCompatActivity {
             }
         });
 
+        //TODO: See if this is considered "replying"
         ibReply.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //TODO: Open compose tweet and pass @screenname thru intent
+                Intent i = new Intent(TweetDetailsActivity.this, ComposeActivity.class);
+                i.putExtra("replyTo", tweet.user.screenName);
+                startActivity(i);
+                //TODO: Finish and pass back the new RT
             }
         });
 
