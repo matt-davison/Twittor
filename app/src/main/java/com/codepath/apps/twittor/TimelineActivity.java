@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Toast;
 
 import com.codepath.apps.twittor.adapters.TweetsAdapter;
@@ -68,6 +69,18 @@ public class TimelineActivity extends AppCompatActivity {
                 android.R.color.holo_red_light);
 
         populateHomeTimelineAsync(3);
+
+        ItemClickSupport.addTo(rvTweets).setOnItemClickListener(
+                new ItemClickSupport.OnItemClickListener() {
+                    @Override
+                    public void onItemClicked(RecyclerView recyclerView, int position, View v) {
+                        Tweet selectedTweet = tweets.get(position);
+                        Intent i = new Intent(TimelineActivity.this, TweetDetailsActivity.class);
+                        i.putExtra("tweet", Parcels.wrap(selectedTweet));
+                        startActivity(i);
+                    }
+                }
+        );
     }
 
     private void populateHomeTimelineAsync(final int attempts) {

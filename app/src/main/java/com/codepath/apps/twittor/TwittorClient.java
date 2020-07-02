@@ -3,6 +3,7 @@ package com.codepath.apps.twittor;
 import android.content.Context;
 
 
+import com.codepath.apps.twittor.models.Tweet;
 import com.codepath.asynchttpclient.RequestParams;
 import com.codepath.asynchttpclient.callback.JsonHttpResponseHandler;
 import com.codepath.oauth.OAuthBaseClient;
@@ -58,6 +59,20 @@ public class TwittorClient extends OAuthBaseClient {
 		String apiUrl = getApiUrl("statuses/update.json");
 		RequestParams params = new RequestParams();
 		params.put("status", tweetContent);
+		client.post(apiUrl, params, "", handler);
+	}
+
+	public void retweet(String tweetId, JsonHttpResponseHandler handler) {
+		String apiUrl = getApiUrl("statuses/retweet/");
+		apiUrl = apiUrl + tweetId + ".json";
+		RequestParams params = new RequestParams();
+		client.post(apiUrl, params, "", handler);
+	}
+
+	public void likeTweet(String tweetId, JsonHttpResponseHandler handler) {
+		String apiUrl = getApiUrl("favorites/create.json?id=");
+		apiUrl = apiUrl + tweetId;
+		RequestParams params = new RequestParams();
 		client.post(apiUrl, params, "", handler);
 	}
 	/* 1. Define the endpoint URL with getApiUrl and pass a relative path to the endpoint

@@ -81,6 +81,7 @@ public class ComposeActivity extends AppCompatActivity {
                             Toast toast = Toast.makeText(ComposeActivity.this, "Sorry, your tweet could not be posted!", Toast.LENGTH_LONG);
                             toast.setGravity(Gravity.TOP|Gravity.CENTER_HORIZONTAL, 0, 0);
                             toast.show();
+                            hideProgressBar();
                         }
                     });
                 }

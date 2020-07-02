@@ -24,6 +24,7 @@ public class Tweet {
     public String createdAt;
     public User user;
     public String mediaPath;
+    public String id;
 
     public Tweet() {}
     public static Tweet fromJson(JSONObject jsonObject) throws JSONException {
@@ -31,6 +32,7 @@ public class Tweet {
         tweet.body = jsonObject.getString("text");
         tweet.createdAt = jsonObject.getString("created_at");
         tweet.user = User.fromJson(jsonObject.getJSONObject("user"));
+        tweet.id = jsonObject.getString("id_str");
         try {
             tweet.mediaPath = jsonObject.getJSONObject("entities").getJSONArray("media").getJSONObject(0).getString("media_url_https");
 
