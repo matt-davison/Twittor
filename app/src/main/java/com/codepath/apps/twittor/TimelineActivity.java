@@ -42,6 +42,8 @@ public class TimelineActivity extends AppCompatActivity {
 
     private boolean networkInProgress;
 
+    EndlessRecyclerViewScrollListener scrollListener;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,8 +56,17 @@ public class TimelineActivity extends AppCompatActivity {
 
         tweets = new ArrayList<>();
         adapter = new TweetsAdapter(this, tweets);
-        rvTweets.setLayoutManager(new LinearLayoutManager(this));
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
+        rvTweets.setLayoutManager(linearLayoutManager);
         rvTweets.setAdapter(adapter);
+        scrollListener = new EndlessRecyclerViewScrollListener(linearLayoutManager) {
+            @Override
+            public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
+                Log.i(TAG, "onLoadMore " + page);
+                loadMoreData();
+            }
+        };
+        rvTweets.addOnScrollListener(scrollListener);
 
         swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -83,6 +94,30 @@ public class TimelineActivity extends AppCompatActivity {
                     }
                 }
         );
+    }
+
+    private void loadMoreData() {
+        showProgressBar();
+        client.getMoreTweets(tweets.get(tweets.size() - 1).long_id, new JsonHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Headers headers, JSON json) {
+                hideProgressBar();
+                Log.i(TAG, "onSuccess for loadMoreData!" + json.toString());
+                JSONArray jsonArray = json.jsonArray;
+                try {
+                    List<Tweet> newTweets = Tweet.fromJsonArray(jsonArray);
+                    adapter.addAll(newTweets);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onFailure(int statusCode, Headers headers, String response, Throwable throwable) {
+                hideProgressBar();
+                Log.e(TAG, "onFailure for loadMoreData!" + response);
+            }
+        });
     }
 
     private void populateHomeTimelineAsync(final int attempts) {
@@ -117,16 +152,13 @@ public class TimelineActivity extends AppCompatActivity {
         });
     }
 
-    //TODO: Do I need to override this method or can this be done in onCreateOptionsMenu()?
-    @Override
-    public boolean onPrepareOptionsMenu(Menu menu) {
-        miNetworkProgress = menu.findItem(R.id.miNetworkProgress);
-        return super.onPrepareOptionsMenu(menu);
-    }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_main, menu);
         miNetworkProgress = menu.findItem(R.id.miNetworkProgress);
+        if (networkInProgress) {
+            showProgressBar();
+        }
         return true;
     }
 
@@ -154,15 +186,18 @@ public class TimelineActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
     }
 
+
+    //TODO: Move these into a helper class!
     public void showProgressBar() {
         // Show progress item
+        networkInProgress = true;
         if (miNetworkProgress != null) {
             miNetworkProgress.setVisible(true);
         }
     }
-
     public void hideProgressBar() {
         // Hide progress item
+        networkInProgress = false;
         if (miNetworkProgress != null) {
             miNetworkProgress.setVisible(false);
         }
