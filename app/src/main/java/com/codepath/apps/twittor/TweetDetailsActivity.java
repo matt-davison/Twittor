@@ -16,6 +16,7 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.CircleCrop;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
+import com.codepath.apps.twittor.databinding.ActivityTweetDetailsBinding;
 import com.codepath.apps.twittor.models.Tweet;
 import com.codepath.asynchttpclient.callback.JsonHttpResponseHandler;
 
@@ -26,16 +27,7 @@ import okhttp3.Headers;
 public class TweetDetailsActivity extends AppCompatActivity {
 
     public static final String TAG = "TweetDetailsActivity";
-
-    ImageView ivLike;
-    ImageView ivRetweet;
-    ImageView ivReply;
-    ImageView ivProfileImage;
-    TextView tvBody;
-    TextView tvScreenName;
-    TextView tvName;
-    TextView tvTime;
-    ImageView ivMedia;
+    ActivityTweetDetailsBinding binding;
     Tweet tweet;
     TwittorClient client;
     MenuItem miNetworkProgress;
@@ -43,32 +35,24 @@ public class TweetDetailsActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_tweet_details);
 
-        ivLike = findViewById(R.id.ivLike);
-        ivReply = findViewById(R.id.ivReply);
-        ivRetweet = findViewById(R.id.ivRetweet);
+        binding = ActivityTweetDetailsBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
 
-        ivProfileImage = findViewById(R.id.ivProfileImage);
-        tvBody = findViewById(R.id.tvBody);
-        tvScreenName = findViewById(R.id.tvScreenName);
-        tvName = findViewById(R.id.tvName);
-        tvTime = findViewById(R.id.tvTime);
-        ivMedia = findViewById(R.id.ivMedia);
 
         tweet = (Tweet) Parcels.unwrap(getIntent().getParcelableExtra("tweet"));
 
-        tvBody.setText(tweet.body);
-        tvScreenName.setText("(@" + tweet.user.screenName + ")");
-        tvName.setText(tweet.user.name);
-        tvTime.setText(Tweet.getRelativeTimeAgo(tweet.createdAt));
-        Glide.with(this).load(tweet.user.profileImageUrl).transform(new CircleCrop()).into(ivProfileImage);
-        Glide.with(this).load(tweet.mediaPath).transform(new RoundedCorners(60)).into(ivMedia);
+        binding.tvBody.setText(tweet.body);
+        binding.tvScreenName.setText("(@" + tweet.user.screenName + ")");
+        binding.tvName.setText(tweet.user.name);
+        binding.tvTime.setText(Tweet.getRelativeTimeAgo(tweet.createdAt));
+        Glide.with(this).load(tweet.user.profileImageUrl).transform(new CircleCrop()).into(binding.ivProfileImage);
+        Glide.with(this).load(tweet.mediaPath).transform(new RoundedCorners(60)).into(binding.ivMedia);
         Log.i("TweetsAdapter", "Tweet from" + tweet.user.screenName + " bound");
 
         client = TwittorApp.getRestClient(this);
 
-        ivLike.setOnClickListener(new View.OnClickListener() {
+        binding.ivLike.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 showProgressBar();
@@ -81,7 +65,7 @@ public class TweetDetailsActivity extends AppCompatActivity {
                         toast.setGravity(Gravity.TOP|Gravity.CENTER_HORIZONTAL, 0, 0);
                         toast.show();
                         //TODO: change v's color to red! and disable
-                        ivLike.setColorFilter(getResources().getColor(R.color.medium_red));
+                        binding.ivLike.setColorFilter(getResources().getColor(R.color.medium_red));
                     }
 
                     @Override
@@ -96,7 +80,7 @@ public class TweetDetailsActivity extends AppCompatActivity {
             }
         });
 
-        ivRetweet.setOnClickListener(new View.OnClickListener() {
+        binding.ivRetweet.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 showProgressBar();
@@ -109,7 +93,7 @@ public class TweetDetailsActivity extends AppCompatActivity {
                         toast.setGravity(Gravity.TOP|Gravity.CENTER_HORIZONTAL, 0, 0);
                         toast.show();
                         //TODO: turn v green! and disable
-                        ivRetweet.setColorFilter(getResources().getColor(R.color.medium_green));
+                        binding.ivRetweet.setColorFilter(getResources().getColor(R.color.medium_green));
                     }
 
                     @Override
@@ -125,7 +109,7 @@ public class TweetDetailsActivity extends AppCompatActivity {
         });
 
         //TODO: See if this is considered "replying"
-        ivReply.setOnClickListener(new View.OnClickListener() {
+        binding.ivReply.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(TweetDetailsActivity.this, ComposeActivity.class);
