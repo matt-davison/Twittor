@@ -40,6 +40,8 @@ public class TimelineActivity extends AppCompatActivity {
     SwipeRefreshLayout swipeContainer;
     MenuItem miNetworkProgress;
 
+    private boolean networkInProgress;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

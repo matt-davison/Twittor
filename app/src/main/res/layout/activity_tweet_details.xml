@@ -41,6 +41,8 @@
         android:layout_marginTop="2dp"
         android:layout_toEndOf="@+id/ivProfileImage"
         android:textColor="@android:color/primary_text_light"
+        android:autoLink="all"
+        android:linksClickable="true"
         tools:text="This is a tweet!" />
 
     <TextView
@@ -80,34 +82,34 @@
         android:adjustViewBounds="true"
         tools:srcCompat="@tools:sample/avatars" />
 
-    <ImageButton
-        android:id="@+id/ibLike"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+    <ImageView
+        android:id="@+id/ivLike"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
         android:layout_below="@+id/ivMedia"
         android:layout_alignParentEnd="true"
-        android:layout_marginTop="0dp"
-        android:layout_marginEnd="0dp"
-        app:srcCompat="@android:drawable/btn_star" />
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="5dp"
+        app:srcCompat="@drawable/ic_like" />
 
-    <ImageButton
-        android:id="@+id/ibRetweet"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/ibLike"
+    <ImageView
+        android:id="@+id/ivRetweet"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_alignTop="@+id/ivLike"
         android:layout_marginTop="0dp"
-        android:layout_marginEnd="0dp"
-        android:layout_toStartOf="@+id/ibLike"
-        app:srcCompat="@android:drawable/ic_menu_share" />
+        android:layout_marginEnd="5dp"
+        android:layout_toStartOf="@+id/ivLike"
+        app:srcCompat="@drawable/ic_retweet" />
 
-    <ImageButton
-        android:id="@+id/ibReply"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/ibLike"
+    <ImageView
+        android:id="@+id/ivReply"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_alignTop="@+id/ivLike"
         android:layout_marginTop="0dp"
-        android:layout_marginEnd="0dp"
-        android:layout_toStartOf="@+id/ibRetweet"
-        app:srcCompat="@android:drawable/ic_menu_directions" />
+        android:layout_marginEnd="5dp"
+        android:layout_toStartOf="@+id/ivRetweet"
+        app:srcCompat="@drawable/ic_compose" />
 
 </RelativeLayout>

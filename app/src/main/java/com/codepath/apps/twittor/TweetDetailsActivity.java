@@ -1,6 +1,5 @@
 package com.codepath.apps.twittor;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -10,8 +9,6 @@ import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -22,7 +19,6 @@ import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.codepath.apps.twittor.models.Tweet;
 import com.codepath.asynchttpclient.callback.JsonHttpResponseHandler;
 
-import org.json.JSONException;
 import org.parceler.Parcels;
 
 import okhttp3.Headers;
@@ -31,9 +27,9 @@ public class TweetDetailsActivity extends AppCompatActivity {
 
     public static final String TAG = "TweetDetailsActivity";
 
-    ImageButton ibLike;
-    ImageButton ibRetweet;
-    ImageButton ibReply;
+    ImageView ivLike;
+    ImageView ivRetweet;
+    ImageView ivReply;
     ImageView ivProfileImage;
     TextView tvBody;
     TextView tvScreenName;
@@ -49,9 +45,9 @@ public class TweetDetailsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tweet_details);
 
-        ibLike = findViewById(R.id.ibLike);
-        ibReply = findViewById(R.id.ibReply);
-        ibRetweet = findViewById(R.id.ibRetweet);
+        ivLike = findViewById(R.id.ivLike);
+        ivReply = findViewById(R.id.ivReply);
+        ivRetweet = findViewById(R.id.ivRetweet);
 
         ivProfileImage = findViewById(R.id.ivProfileImage);
         tvBody = findViewById(R.id.tvBody);
@@ -72,7 +68,7 @@ public class TweetDetailsActivity extends AppCompatActivity {
 
         client = TwittorApp.getRestClient(this);
 
-        ibLike.setOnClickListener(new View.OnClickListener() {
+        ivLike.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 showProgressBar();
@@ -85,6 +81,7 @@ public class TweetDetailsActivity extends AppCompatActivity {
                         toast.setGravity(Gravity.TOP|Gravity.CENTER_HORIZONTAL, 0, 0);
                         toast.show();
                         //TODO: change v's color to red! and disable
+                        ivLike.setColorFilter(getResources().getColor(R.color.medium_red));
                     }
 
                     @Override
@@ -99,7 +96,7 @@ public class TweetDetailsActivity extends AppCompatActivity {
             }
         });
 
-        ibRetweet.setOnClickListener(new View.OnClickListener() {
+        ivRetweet.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 showProgressBar();
@@ -112,6 +109,7 @@ public class TweetDetailsActivity extends AppCompatActivity {
                         toast.setGravity(Gravity.TOP|Gravity.CENTER_HORIZONTAL, 0, 0);
                         toast.show();
                         //TODO: turn v green! and disable
+                        ivRetweet.setColorFilter(getResources().getColor(R.color.medium_green));
                     }
 
                     @Override
@@ -127,7 +125,7 @@ public class TweetDetailsActivity extends AppCompatActivity {
         });
 
         //TODO: See if this is considered "replying"
-        ibReply.setOnClickListener(new View.OnClickListener() {
+        ivReply.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(TweetDetailsActivity.this, ComposeActivity.class);
