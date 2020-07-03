@@ -3,6 +3,12 @@ package com.codepath.apps.twittor.models;
 import android.text.format.DateUtils;
 import android.util.Log;
 
+import androidx.room.ColumnInfo;
+import androidx.room.Entity;
+import androidx.room.ForeignKey;
+import androidx.room.Ignore;
+import androidx.room.PrimaryKey;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -16,18 +22,34 @@ import java.util.Locale;
 
 import static android.text.format.DateUtils.FORMAT_ABBREV_RELATIVE;
 
-//TODO: Why do all of these methods have to be static?
 @Parcel
+@Entity(foreignKeys = @ForeignKey(entity=User.class, parentColumns="long_id", childColumns="user_id"))
 public class Tweet {
 
-    public String body;
-    public String createdAt;
-    public User user;
-    public String mediaPath;
-    public String id;
+    @ColumnInfo
+    @PrimaryKey
     public Long long_id;
 
+    @ColumnInfo
+    public Long user_id;
+
+    @ColumnInfo
+    public String id;
+
+    @ColumnInfo
+    public String body;
+
+    @ColumnInfo
+    public String createdAt;
+
+    @Ignore
+    public User user;
+
+    @Ignore
+    public String mediaPath;
+
     public Tweet() {}
+
     public static Tweet fromJson(JSONObject jsonObject) throws JSONException {
         Tweet tweet = new Tweet();
         tweet.body = jsonObject.getString("text");
@@ -35,6 +57,7 @@ public class Tweet {
         tweet.user = User.fromJson(jsonObject.getJSONObject("user"));
         tweet.id = jsonObject.getString("id_str");
         tweet.long_id = jsonObject.getLong("id");
+        tweet.user_id = tweet.user.long_id;
         try {
             tweet.mediaPath = jsonObject.getJSONObject("entities").getJSONArray("media").getJSONObject(0).getString("media_url_https");
 
