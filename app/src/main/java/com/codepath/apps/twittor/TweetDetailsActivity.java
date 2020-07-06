@@ -24,6 +24,9 @@ import org.parceler.Parcels;
 
 import okhttp3.Headers;
 
+/**
+ * This Activity implements the Tweet Details story.
+ */
 public class TweetDetailsActivity extends AppCompatActivity {
 
     public static final String TAG = "TweetDetailsActivity";
@@ -108,14 +111,12 @@ public class TweetDetailsActivity extends AppCompatActivity {
             }
         });
 
-        //TODO: See if this is considered "replying"
         binding.ivReply.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(TweetDetailsActivity.this, ComposeActivity.class);
                 i.putExtra("replyTo", tweet.user.screenName);
                 startActivity(i);
-                //TODO: Finish and pass back the new RT
             }
         });
 
@@ -129,6 +130,7 @@ public class TweetDetailsActivity extends AppCompatActivity {
         return true;
     }
 
+    //TODO: Move these into a helper class!
     public void showProgressBar() {
         // Show progress item
         if (miNetworkProgress != null) {

@@ -23,7 +23,9 @@ import org.parceler.Parcels;
 
 import okhttp3.Headers;
 
-
+/**
+ * This Activity implements the creating tweets story.
+ */
 public class ComposeActivity extends AppCompatActivity {
 
     public static final String TAG = "ComposeActivity";
@@ -95,17 +97,13 @@ public class ComposeActivity extends AppCompatActivity {
     }
 
     @Override
-    public boolean onPrepareOptionsMenu(Menu menu) {
-        //miNetworkProgress = menu.findItem(R.id.miNetworkProgress);
-        return super.onPrepareOptionsMenu(menu);
-    }
-    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_main, menu);
         miNetworkProgress = menu.findItem(R.id.miNetworkProgress);
         return true;
     }
 
+    //TODO: Move these to a helper class!
     public void showProgressBar() {
         // Show progress item
         if (miNetworkProgress != null) {

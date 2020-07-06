@@ -13,6 +13,11 @@ public class TweetWithUser {
     @Embedded(prefix = "tweet_")
     Tweet tweet;
 
+    /**
+     * Creates a List of Tweet from a List of TweetWithUser
+     * @param tweetWithUsers The TweetWithUser to create a list of Tweets from.
+     * @return A new List of Tweets.
+     */
     public static List<Tweet> getTweetList(List<TweetWithUser> tweetWithUsers) {
         List<Tweet> tweets = new ArrayList<>();
         for (int i = 0; i < tweetWithUsers.size(); i++) {

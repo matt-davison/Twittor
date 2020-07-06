@@ -6,7 +6,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.codepath.apps.twittor.R;
 
-/*
+/**
+  This Class provides click support to the elements displayed in a RecyclerView
+
   Source: http://www.littlerobots.nl/blog/Handle-Android-RecyclerView-Clicks/
   USAGE:
 

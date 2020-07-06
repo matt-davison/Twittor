@@ -14,6 +14,9 @@ import org.parceler.Parcel;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Represents a Twitter User account.
+ */
 @Parcel
 @Entity
 public class User {

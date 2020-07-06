@@ -32,6 +32,10 @@ import java.util.List;
 
 import okhttp3.Headers;
 
+/**
+ * This Activity implements the Timeline story.
+ * It also serves as the app's home page.
+ */
 public class TimelineActivity extends AppCompatActivity {
     private static final String TAG = "TimelineActivity";
     private final int REQUEST_CODE = 20;
